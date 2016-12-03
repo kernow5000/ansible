@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+
+  become_method: sudo 
+  become: true
+
+  tasks:
+    - name: Edit dircolors to 34 instead of 35
+      replace: dest=/etc/dircolors regexp='DIR 01;35' replace='DIR 01;34'
+

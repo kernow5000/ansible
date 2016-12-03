@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+
+  vars: 
+    p: '/etc/apache2/conf-available/security.conf'
+
+  become_method: sudo 
+  become: true
+
+  tasks:
+    - name: Harden Apache configuration
+      replace: dest={{ p }} regexp={{ item.from }} replace={{ item.to }}
+      with_items: 
+        - { from: 'ServerSignature On', to: 'ServerSignature Off' }
+        - { from: 'ServerTokens OS', to: 'ServerTokens Prod' }

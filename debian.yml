@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+
+  become_method: sudo 
+  become: true
+  
+  tasks:
+
+  - name: Update and upgrade apt
+    command: "{{ item }}"
+    with_items: 
+     - apt-get update
+     - apt-get upgrade
+
+  - name: Install some shiz
+    command: apt-get install {{ item }}
+    with_items:
+     - nano 
+     - lsof
+     - psmisc
+
+
+
