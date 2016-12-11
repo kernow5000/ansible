@@ -1,0 +1,16 @@
+---
+- hosts: centos
+
+  become_method: sudo 
+  become: true
+
+  tasks:
+    - name: Install useful tools
+      yum: name={{ item }} state=latest
+      with_items: 
+        - lsof
+        - nano
+        - psmisc
+
+
+
