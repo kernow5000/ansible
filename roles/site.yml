@@ -1,0 +1,10 @@
+---
+-
+
+# attempt at a very good playbook with self contained, 'safe' well written roles in
+# so doing selinux config the best way, not just the way that works.
+# lineinfile over regexp?
+
+# look into how you handle the reboot after turning it off, unless you just don't?
+
+
