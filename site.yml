@@ -3,13 +3,17 @@
 - hosts: centos7
   become_method: sudo
   become: true
+  
+  tasks:
+  - name: Run yum update
+    yum: name="*" state=latest
 
   roles:
-    - { role: selinux, when: ansible_os_family == 'RedHat' }
-    - { role: mariadb, when: ansible_os_family == 'RedHat' }
-    - { role: httpd, when: ansible_os_family == 'RedHat' }
-#    - php (default php for simplicity)
-#    - wordpress - tarball and extract
+    #- { role: selinux, when: ansible_os_family == 'RedHat' }
+    #- { role: mariadb, when: ansible_os_family == 'RedHat' }
+    #- { role: httpd, when: ansible_os_family == 'RedHat' }
+    #- php (default php for simplicity)
+    #- wordpress - tarball and extract
 
   
 

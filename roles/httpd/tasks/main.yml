@@ -6,27 +6,17 @@
     - httpd-tools
     - mod_ssl
 
-- name: Create {{ httpd_conf_dir }}/vhosts directory
-  file: path={{ httpd_conf_dir }}/vhosts 
-	state=directory 
-	owner=root 
-	group=root 
-	mode=0755
+- name: Create "{{ httpd_conf_dir }}"/vhosts directory
+  file: path="{{ httpd_conf_dir }}/vhosts" state=directory owner=root group=root mode=0755
 
-- name: Copy over httpd.conf template
-  template: src=httpd.conf.j2 
-	dest={{ httpd_conf_dir }}/vhosts/ 
-	owner=root 
-	group=root 
-	mode=0644
-
-- name: Copy over virtual host template
-  template: src=vhost.conf.j2 
-	dest={{ httpd_conf_dir }}/vhosts/{{ ansible_fqdn }}.conf
-	owner=root
-	group=root
-	mode=0644 
+- name: Copy over httpd config templates
+  template: src={{ item.src }} dest={{ item.dest }} owner=root group=root mode=0644
+  with_items:
+    - { src: 'httpd.conf.j2', dest: '/etc/httpd/conf/httpd.conf' }   
+    - { src: 'vhost.conf.j2', dest: '/etc/httpd/conf/vhosts/{{ ansible_fqdn }}.conf' }
+    - { src: 'welcome.conf.j2', dest: '/etc/httpd/conf.d/welcome.conf' }
+  notify:
+  - restart httpd
 
 - name: Start httpd service
   service: name=httpd state=started enabled=true
-
