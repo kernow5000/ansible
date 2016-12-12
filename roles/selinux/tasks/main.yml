@@ -1,2 +1,11 @@
 ---
-# tasks file for selinux
+- name: Install libselinux-python yum package for ansible
+  yum: name=libselinux-python state=latest
+  when: ansible_os_family == 'RedHat'
+
+- name: Disable selinux via module
+  selinux: 
+    policy: targeted
+    state: permissive
+  when: ansible_os_family == 'RedHat'
+

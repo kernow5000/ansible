@@ -1,17 +1,18 @@
 Role Name
 =========
 
-This role will disable selinux via setenforce.
-It'll have to properly check it's enabled, 
-and disable it properly in the config and not just guess.
-How do you get around the reboot issue though unless you 
-make a reboot role and use that at the end of your site.yml playbook
-or just run a command hmm
+This role disables selinux on RHEL and CentOS systems. 
+It will check if {{ ansible_host }} is one of those and if not will skip the role. 
+Otherwise it will: 
+  * Disable selinux via getenforce
+  * set 'permissive' in /etc/selinux/config
+
+Technically you should reboot after this for relabelling, but that can happen whenever.
 
 Requirements
 ------------
 
-This will check if it's running on centos or whatever and stop otherwise
+This role will only work on RHEL or CentOS systems. 
 
 Role Variables
 --------------
@@ -30,7 +31,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - selinux {{ ? }}
 
 License
 -------
