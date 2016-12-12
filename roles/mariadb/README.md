@@ -1,7 +1,11 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role will install mariadb packages and:
+* start the service
+* run mysql_secure_installation somehow
+* use a variable in ansible vault maybe to store the password?
+* not much else apart from that really, the wordpress role can do the rest
 
 Requirements
 ------------

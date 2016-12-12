@@ -1,15 +1,13 @@
 
 ---
 - hosts: centos7
-
-# could these go in the roles instead?  
   become_method: sudo
   become: true
 
   roles:
     - { role: selinux, when: ansible_os_family == 'RedHat' }
-#    - mysql (...sigh)
-#    - httpd (install, vhost? hmm }
+    - { role: mariadb, when: ansible_os_family == 'RedHat' }
+    - { role: httpd, when: ansible_os_family == 'RedHat' }
 #    - php (default php for simplicity)
 #    - wordpress - tarball and extract
 

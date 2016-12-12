@@ -1,0 +1,13 @@
+---
+- name: Install MariaDB packages
+  yum: name={{ item }} state=latest
+  with_items:
+    - mariadb
+    - mariadb-libs
+    - mariadb-server
+    - php-mysql
+
+- name: Start MariaDB service
+  service: name=mariadb state=started enabled=true
+
+

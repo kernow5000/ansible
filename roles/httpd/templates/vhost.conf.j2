@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+  ServerName {{ ansible_fqdn }}
+  ServerAdmin root@{{ ansible_fqdn }}
+  
+  CustomLog /var/log/httpd/{{ ansible_fqdn }}_access_log combined
+  ErrorLog /var/log/httpd/{{ ansible_fqdn }}_error_log
+  
+  <Directory "/var/www/html">
+    AllowOverride All
+    Options -Indexes FollowSymLinks
+  </Directory>
+
+</VirtualHost>

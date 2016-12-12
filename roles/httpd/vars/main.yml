@@ -1,2 +1,2 @@
 ---
-# vars file for httpd
+httpd_conf_dir: /etc/httpd/conf
