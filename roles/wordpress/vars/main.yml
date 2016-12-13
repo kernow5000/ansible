@@ -1,2 +1,9 @@
 ---
-# vars file for wordpress
+# these need to be in vault too I guess one day
+mysql_root_pw: letmein
+wordpress_db_user: wp_user
+wordpress_db_pass: resu_pw
+
+# how would we include the variables from the db role so we can connect?
+# eh that db role needs work anyway
+

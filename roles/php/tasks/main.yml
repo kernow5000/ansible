@@ -1,2 +1,14 @@
 ---
-# tasks file for php
+- name: Install (default) php packages
+  yum: name={{ item }} state=latest
+  with_items:
+    - php
+    - php-cli
+    - php-common
+    - php-mysql
+    - php-gd
+    - php-xml
+
+  notify:
+    - restart httpd
+

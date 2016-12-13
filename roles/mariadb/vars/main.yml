@@ -1,2 +1,4 @@
 ---
-# vars file for mysql
+# you could pass these in too, or put them in vault
+mysql_root_pw: letmein
+

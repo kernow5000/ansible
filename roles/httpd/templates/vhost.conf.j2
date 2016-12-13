@@ -1,13 +1,19 @@
 <VirtualHost *:80>
-  ServerName {{ ansible_fqdn }}
-  ServerAdmin root@{{ ansible_fqdn }}
-  
-  CustomLog /var/log/httpd/{{ ansible_fqdn }}_access_log combined
-  ErrorLog /var/log/httpd/{{ ansible_fqdn }}_error_log
-  
-  <Directory "/var/www/html">
+  ServerName {{ vhost_servername }}
+
+{% if vhost_serveradmin is defined %}
+  ServerAdmin {{ vhost_serveradmin }}  
+{% endif %}
+
+  CustomLog /var/log/httpd/{{ vhost_servername }}_access_log combined
+  ErrorLog /var/log/httpd/{{ vhost_servername }}_error_log
+
+ DocumentRoot "/var/www/domains/{{ vhost_servername }}"
+
+ <Directory "/var/www/domains/{{ vhost_servername }}>
+    DirectoryIndex index.html index.htm index.php
     AllowOverride All
-    Options -Indexes FollowSymLinks
-  </Directory>
+    Options +Indexes +FollowSymLinks
+ </Directory>
 
 </VirtualHost>

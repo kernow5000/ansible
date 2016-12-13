@@ -1,6 +1,6 @@
 
 ---
-- hosts: centos7
+- hosts: centos7.kern.net
   become_method: sudo
   become: true
   
@@ -9,11 +9,15 @@
     yum: name="*" state=latest
 
   roles:
-    #- { role: selinux, when: ansible_os_family == 'RedHat' }
-    #- { role: mariadb, when: ansible_os_family == 'RedHat' }
-    #- { role: httpd, when: ansible_os_family == 'RedHat' }
-    #- php (default php for simplicity)
-    #- wordpress - tarball and extract
+    - { role: selinux, when: ansible_os_family == 'RedHat' }
+    - { role: mariadb, when: ansible_os_family == 'RedHat' }
+    - { role: httpd, when: ansible_os_family == 'RedHat' }
+    - { role: php, when: ansible_os_family == 'RedHat' }
+    - wordpress
+
+# these could do with depending on each other or being stateless
+# if that's even possible
+
 
   
 

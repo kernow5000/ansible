@@ -1,7 +1,12 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This will just get wordpress into /var/www/domains/whatever
+
+These roles seem a bit too linked
+ok - how do I get the root db password from the mariadb role into here
+by storing it in ansible vault I guess
+unless I specify it in both places for now
 
 Requirements
 ------------

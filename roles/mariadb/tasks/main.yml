@@ -6,8 +6,21 @@
     - mariadb-libs
     - mariadb-server
     - php-mysql
+    - MySQL-python
 
 - name: Start MariaDB service
   service: name=mariadb state=started enabled=true
 
+- name: Remove 'test' database
+  mysql_db: name='test' state=absent
+
+- name: Remove anonymous database users
+  mysql_user: name='' state=absent
+
+# remove more root users as there's fair few and one anon one left
+
+- name: Set password for MariaDB root user
+  mysql_user: name='root' password='{{ mysql_root_pw }}' priv='*.*:ALL' state=present
+
+# now I've set the password ... how do I create a wordpress user in that role later on?
 
