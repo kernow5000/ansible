@@ -11,16 +11,28 @@
 - name: Start MariaDB service
   service: name=mariadb state=started enabled=true
 
+#- name: Set password for MariaDB root user - seems this isn't for root@localhost!
+#  mysql_user: name='root' password="{{mariadb_root_pw}}" priv='*.*:ALL' state=present
+
+#- name: Lock down root account from elsewhere
+#  mysql_user: name='root' password="{{mariadb_root_pw}}" host={{ item }} priv='*.*:ALL' state=present
+#  with_items:
+#    - { '127.0.0.1' }
+#    - { 'localhost' }
+#    - { '::1' }
+
+- name: Copy over /root/.my.cnf
+  template: src=dotmy.cnf.j2 dest=/root/.my.cnf owner=root group=root mode=0600
+
+- name: Remove anonymous database users
+  mysql_user:
+    login_user: root
+    login_password: 
+    name: ''
+    state: absent
+
 - name: Remove 'test' database
   mysql_db: name='test' state=absent
 
-- name: Remove anonymous database users
-  mysql_user: name='' state=absent
 
-# remove more root users as there's fair few and one anon one left
-
-- name: Set password for MariaDB root user
-  mysql_user: name='root' password='{{ mysql_root_pw }}' priv='*.*:ALL' state=present
-
-# now I've set the password ... how do I create a wordpress user in that role later on?
 
