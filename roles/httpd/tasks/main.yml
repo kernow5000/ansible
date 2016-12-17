@@ -12,7 +12,7 @@
   file: path={{item.path}} state=directory owner={{item.owner}} group={{item.group}} mode={{item.mode}}
   with_items:
     - { path: '/var/www/domains', owner: 'root', group: 'root', mode: '0755' }
-    - { path: '/var/www/domains/{{vhost_servername}}', owner: 'apache', group: 'apache', mode: '0755' }
+    #- { path: '/var/www/domains/{{vhost_servername}}', owner: 'apache', group: 'apache', mode: '0755' }
 
 - name: Copy over httpd config templates
   template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0644
