@@ -1,33 +1,37 @@
 ---
-- name: Install MariaDB packages
-  yum: name={{ item }} state=latest
+- name: Install packages
+  yum: name={{item}} state=latest
   with_items:
     - mariadb
     - mariadb-libs
     - mariadb-server
-    - php-mysql
     - MySQL-python
-
-- name: Start MariaDB service
+    - perl-DBD-MySQL
+    - php-mysql
+ 
+- name: Start service and enable on boot
   service: name=mariadb state=started enabled=true
-
-- name: Lock down root account from elsewhere
-  mysql_user: name='root' password='{{mariadb_root_pw}}' host={{ item }} priv='*.*:ALL' state=present
-  with_items:
-    - { '127.0.0.1' }
-    - { 'localhost' }
-    - { '::1' }
-    - { "{{ ansible_fqdn }}" }
-
-- name: Copy over /root/.my.cnf credentials file
+ 
+- name: Update password for root@localhost
+  mysql_user: name=root host=localhost password={{mariadb_root_pw}}
+ 
+- name: Copy over client .my.cnf
   template: src=dotmy.cnf.j2 dest=/root/.my.cnf owner=root group=root mode=0600
+ 
+- name: Change root password
+  mysql_user: name=root host={{item}} password={{mariadb_root_pw}}
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
 
-- name: Remove anonymous database users
-  mysql_user:
-    login_user: root
-    login_password: 
-    name: ''
-    state: absent
+- name: Removes anonymous users
+  mysql_user: user='' host={{item}} state=absent
+  with_items:
+    - localhost
+    - "{{ inventory_hostname }}"
 
 - name: Remove 'test' database
   mysql_db: name='test' state=absent
+
+

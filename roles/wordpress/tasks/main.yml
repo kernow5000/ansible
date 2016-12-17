@@ -1,8 +1,38 @@
 ---
 - name: Create wordpress database user
-  mysql_user: name='{{ wordpress_db_user }}' password='{{ wordpress_db_pass }}' priv='*.*:ALL' state=present
+  mysql_user: name='{{wordpress_db_user}}' password='{{wordpress_db_pass}}' priv='*.*:ALL' state=present
 
-  # this is going to fail as we have locked ourselves out of mysql
-  # unless there's some way to specify a password
-#- name: Download wordpress to vhost webroot
-# wget: {{ wordpress_release }}  
+- name: Create wordpress database
+  mysql_db: name='{{wordpress_db_name}}' state=present
+
+- name: Extract wordpress
+  unarchive: src="https://wordpress.org/latest.tar.gz" dest="/var/www/domains" remote_src=yes
+
+- name: Copy wordpress dir to vhost webroot
+  copy: remote_src=true 
+    src=/var/www/domains/wordpress 
+    dest=/var/www/domains/centos7.kern.net
+    owner=apache
+    group=apache
+
+- name: Delete temp wordpress files
+  file: path=/var/www/domains/wordpress state=absent
+
+- name: Set file permissions - rewrite this ffs
+  command: find /var/www/domains/centos7.kern.net/ -type -f -exec chmod 644 {} \;
+
+- name: Set dir permissions - rewrite this ffs
+  command: find /var/www/domains/centos7.kern.net/ -type -d -exec chmod 755 {} \;
+
+
+# template: 
+#   src=wp-config.php.j2 
+#   dest=/var/www/domains/'{{ ansible_fqdn }}'/wp-config.php 
+#   owner=apache
+#   group=apache
+#   mode=0640
+
+
+
+# assume webroot to extract to 
+

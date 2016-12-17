@@ -9,18 +9,11 @@
     yum: name="*" state=latest
 
   roles:
-    #- { role: selinux, when: ansible_os_family == 'RedHat' }
-    
-    # I want the mariadb role to be better and solve the root password/create db itempotent issue
-    # how can you do it?
-
+    - { role: selinux, when: ansible_os_family == 'RedHat' }
     - { role: mariadb, when: ansible_os_family == 'RedHat' }
-    #- { role: httpd, when: ansible_os_family == 'RedHat' }
-    #- { role: php, when: ansible_os_family == 'RedHat' }
-    #- wordpress
-
-# these could do with depending on each other or being stateless
-# if that's even possible
+    - { role: httpd, when: ansible_os_family == 'RedHat' }
+    - { role: php, when: ansible_os_family == 'RedHat' }
+    - wordpress
 
 
   
