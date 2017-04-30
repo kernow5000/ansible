@@ -1,2 +1,3 @@
 ---
-# defaults file for php
+php_ini: /etc/php.ini
+

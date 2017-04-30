@@ -27,4 +27,3 @@
   service: name=httpd state=started enabled=true
 
 
-# why is ansible_hostname just the short hostname?

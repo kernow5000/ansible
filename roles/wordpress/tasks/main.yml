@@ -6,30 +6,16 @@
   mysql_db: name='{{wordpress_db_name}}' state=present
 
 - name: Extract wordpress
-  unarchive: src="https://wordpress.org/latest.tar.gz" dest="/var/www/domains" remote_src=yes
+  unarchive: src="https://wordpress.org/latest.tar.gz" 
+    dest="/var/www/domains" 
+    remote_src=yes
+    owner=apache
+    group=apache
 
-- name: Copy wordpress dir to vhost webroot
-  command: mv /var/www/domains/wordpress /var/www/domains/centos7.kern.net
-
-- name: Delete temp wordpress files
-  file: path=/var/www/domains/wordpress state=absent
-
-- name: Set file permissions - rewrite this
-  command: find /var/www/domains/centos7.kern.net/ -type f -exec chmod 644 {} \;
-
-- name: Set dir permissions - rewrite this
-  command: find /var/www/domains/centos7.kern.net/ -type d -exec chmod 755 {} \;
-
-- name: Set apache user - rewrite this too
-  command: chown -R apache. /var/www/domains/centos7.kern.net
-# use file module with owner instead of this
-
-# template: 
-#   src=wp-config.php.j2 
-#   dest=/var/www/domains/'{{ ansible_fqdn }}'/wp-config.php 
-#   owner=apache
-#   group=apache
-#   mode=0640
-
-# assume webroot to extract to for now
+- name: Set webroot permissions 
+  command: '{{item.command}}'
+  with_items:
+    - { command: 'mv /var/www/domains/wordpress /var/www/domains/centos7.kern.net' }
+    - { command: 'find /var/www/domains/centos7.kern.net -type d -exec chmod 0775 {} \; ' }
+    - { command: 'find /var/www/domains/centos7.kern.net -type f -exec chmod 0664 {} \; ' }
 

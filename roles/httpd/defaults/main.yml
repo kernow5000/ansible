@@ -1,2 +1,7 @@
 ---
-# defaults file for httpd
+httpd_conf_dir: /etc/httpd/conf
+vhost_servername: centos7.kern.net
+vhost_serveradmin: root@centos7.kern.net
+
+# shouldn't have to specify these really
+

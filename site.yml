@@ -1,20 +1,14 @@
-
 ---
 - hosts: centos7.kern.net
   become_method: sudo
   become: true
   
-  tasks:
-  - name: Run yum update
-    yum: name="*" state=latest
-
   roles:
-    - { role: selinux, when: ansible_os_family == 'RedHat' }
-    - { role: mariadb, when: ansible_os_family == 'RedHat' }
-    - { role: httpd, when: ansible_os_family == 'RedHat' }
-    - { role: php, when: ansible_os_family == 'RedHat' }
+    - selinux
+    - mariadb
+    - httpd
+    - php
     - wordpress
-
 
   
 
